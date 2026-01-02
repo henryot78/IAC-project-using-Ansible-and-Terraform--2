@@ -1,33 +1,24 @@
+  ## Infrastructure as Code with Terraform and Condiguration with Ansible
+ ## Overview
+This project demonstrates how to provision and configure AWS infrastructure using a modern Infrastructure as Code (IaC) workflow.
+Instead of manually clicking around the AWS Console, the entire environment is:
+Provisioned automatically with Terraform (infrastructure)
+Configured automatically with Ansible (server setup)
+The result is a reproducible cloud deployment that can be rebuilt from scratch consistently, making it ideal for real-world DevOps teams and scalable cloud operations.
+The goal is to improve:
+Repeatability 🔁
+Speed of deployment ⚡
+Security (least exposure) 🔐
+Maintainability 🛠️
+Infrastructure consistency 🧱
+---
 
-# Cloud Engineer Coding Challenge 3  
-## Infrastructure as Code with Terraform and Ansible
+
 
 ---
 
-## What Are We Building? (5th Grader Version)
+## Project Architecture (High Level)
 
-Imagine AWS is a giant LEGO city 🧱🌆.
-
-We use **two robots**:
-
-### Terraform (The Builder Robot 🤖)
-Terraform builds the city pieces:
-- A tiny computer (**EC2 t3.micro**)
-- A storage box (**S3 bucket**)
-- A permission badge (**IAM role**)
-- A safety fence (**Security Group**) for web traffic and SSH
-
-### Ansible (The Setup Robot 🧰)
-Ansible walks into the computer and:
-- Installs **Nginx**
-- Adds a webpage that says **Hello, World!**
-- Turns the web server on
-
----
-
-## Folder Structure (Local Machine)
-
-Your project should look like this:
 
 ```
 project-root/
@@ -43,10 +34,17 @@ project-root/
 └── README.md
 ```
 
-You will run Terraform commands inside the **terraform/** folder  
-and Ansible commands inside the **ansible/** folder.
-
----
+## What This Project Simulates
+* In a real enterprise environment, this project represents:
+* Automating cloud infrastructure provisioning (instead of manual setup)
+* Building infrastructure in a reusable, version-controlled way
+* Separating responsibilities between:
+* Infrastructure provisioning (Terraform)
+* Configuration management (Ansible)
+# Following DevOps best practices such as:
+* SSH locked to my IP (YOUR_PUBLIC_IP/32)
+* IAM roles instead of hardcoded credentials
+* Git hygiene (no .terraform or binaries committed)
 
 ## Terraform Configuration
 
@@ -214,13 +212,54 @@ exit
 
 ## Ansible Setup
 
+
+## ansible/ansible.cfg
+```bash
+[defaults]
+inventory = inventory.ini
+host_key_checking = False
+retry_files_enabled = False
+```
+
 ### ansible/inventory.ini
 ```ini
 [web]
 <EC2_PUBLIC_IP> ansible_user=ubuntu
 ```
+## ansible/playbook.yml
+```bash
+- name: Configure web server and deploy Hello World
+  hosts: web
+  become: true
 
----
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: Create Hello World page
+      copy:
+        dest: /var/www/html/index.html
+        content: |
+          <html>
+            <head><title>Hello</title></head>
+            <body style="font-family: Arial;">
+              <h1>Hello, World!</h1>
+              <p>Deployed by Ansible ✅</p>
+            </body>
+          </html>
+
+    - name: Ensure nginx is running
+      service:
+        name: nginx
+        state: started
+        enabled: true
+```
 
 ## Run Ansible
 
@@ -258,7 +297,7 @@ You should see **Hello, World!**
 
 ---
 
-## Cleanup (Avoid Charges)
+## Cleanup 
 
 ```bash
 cd terraform
@@ -271,7 +310,7 @@ Type **yes**.
 
 ## Done ✅
 
-You have successfully:
+## Outcome: 
 - Built infrastructure with Terraform
 - Configured a server with Ansible
 - Deployed a live web page on AWS

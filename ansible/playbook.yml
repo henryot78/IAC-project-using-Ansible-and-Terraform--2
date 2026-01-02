@@ -1,0 +1,32 @@
+---
+- name: Configure web server and deploy Hello World
+  hosts: web
+  become: true
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: Create Hello World page
+      copy:
+        dest: /var/www/html/index.html
+        content: |
+          <html>
+            <head><title>Hello</title></head>
+            <body style="font-family: Arial;">
+              <h1>Hello, World!</h1>
+              <p>Deployed by Ansible ✅</p>
+            </body>
+          </html>
+
+    - name: Ensure nginx is running
+      service:
+        name: nginx
+        state: started
+        enabled: true

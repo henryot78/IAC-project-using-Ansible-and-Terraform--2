@@ -1,0 +1,24 @@
+# Terraform
+**/.terraform/
+**/.terraform.lock.hcl
+**/terraform.tfstate
+**/terraform.tfstate.*
+**/crash.log
+**/crash.*.log
+
+# Terraform variable files (often contain secrets)
+**/*.tfvars
+
+# Ansible
+**/*.retry
+
+# OS / Editor
+.DS_Store
+.vscode/
+.idea/
+
+# SSH keys (never commit)
+*.pem
+*.key
+
+

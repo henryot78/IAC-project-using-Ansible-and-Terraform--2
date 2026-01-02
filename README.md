@@ -1,16 +1,16 @@
- ## Overview
+ # Overview
+
 This project demonstrates how to provision and configure AWS infrastructure using a modern Infrastructure as Code (IaC) workflow.
 Instead of manually clicking around the AWS Console, the entire environment is:
 Provisioned automatically with Terraform (infrastructure)
 Configured automatically with Ansible (server setup)
 The result is a reproducible cloud deployment that can be rebuilt from scratch consistently, making it ideal for real-world DevOps teams and scalable cloud operations.
-The goal is to improve:
-Repeatability 🔁
-Speed of deployment ⚡
-Security (least exposure) 🔐
-Maintainability 🛠️
-Infrastructure consistency 🧱
----
+# The goal is to improve:
+* Repeatability 🔁
+* Speed of deployment ⚡
+* Security (least exposure) 🔐
+* Maintainability 🛠️
+* Infrastructure consistency 🧱
 
 
 
